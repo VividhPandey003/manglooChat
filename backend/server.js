@@ -21,7 +21,7 @@ app.use(cookieParser());    // This will parse cookies from the request
 // Adding authentication routes under the '/api/auth' path
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/users', userRoutes);
 // Starting the server and connecting to MongoDB
 app.listen(PORT, () => {
     connectToMongoDB();   // Calling function to connect to MongoDB
