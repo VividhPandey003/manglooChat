@@ -1,4 +1,4 @@
-import mongoose from mongoose;
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     fullName: {
@@ -21,12 +21,12 @@ const userSchema = new mongoose.Schema({
     gender: {
         type: String,
         required: true,
-        enum: ['Male', 'Female', 'Eh']
+        enum: ['male', 'female']
     },
-    profilePicture: {
+    profilePic: {
         type: String,
-        default: '/avatar.png'
-    },
+        default: "",
+    }
 });
 
 const User = mongoose.model('User', userSchema);
