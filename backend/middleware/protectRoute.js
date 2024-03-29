@@ -6,8 +6,6 @@ const protectRoute = async(req, res, next) => {
     try {
         // Get token from cookies
         const token = req.cookies.token;
-
-        console.log("Token: ", token)
         // If token is not present, return 401 status
         if (!token) {
             return res.status(401).json({ message: "Unauthorized: Token Not Present" });

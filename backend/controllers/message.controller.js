@@ -35,3 +35,23 @@ export const sendMessage = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
+export const getMessages = async (req, res) => {
+    try{
+        const { id: receiverId } = req.params; // userToChatId is the id of the user with whom the logged in user wants to chat
+        const senderId = req.user._id;
+
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] }
+        }).populate("messages"); // not reference but actual messages meaning the messages will be populated
+
+        if (!conversation) {
+            return res.status(200).json([]);
+        }
+        const messages= conversation.messages;
+        res.status(200).json({ messages });
+    } catch (error) {
+        console.log("Error in getMessages Controller: ", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
