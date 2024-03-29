@@ -36,9 +36,12 @@ export const signup = async (req, res) => {
             profilePic
         });
 
+        // Check if newUser object is valid
         if (newUser) {
-            // Save the new user to the database
+            // Generate JWT token and set it as a cookie
             generateTokenAndSetCookie(newUser._id, res);
+            
+            // Save the new user to the database
             await newUser.save();
 
             // Respond with 201 status and user data
@@ -50,6 +53,7 @@ export const signup = async (req, res) => {
                 gender: newUser.gender
             });
         } else {
+            // If newUser object is invalid, return an error
             res.status(400).json({ message: "Invalid user data" });
         }
 
@@ -61,9 +65,37 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    try{
-        const {username, password} = req.body;
-        
+    try {
+        // Destructure the request body to extract username and password
+        const { username, password } = req.body;
+
+        // Find the user by username
+        const user = await User.findOne({ username });
+
+        // If user not found, return 404 status
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Check if the password is correct
+        const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+
+        // If password is incorrect, return 400 status
+        if (!isPasswordCorrect || !user) {
+            return res.status(400).json({ message: "Invalid Username Or Password" });
+        }
+
+        // Generate JWT token and set it as a cookie
+        generateTokenAndSetCookie(user._id, res);
+
+        // Respond with 200 status and user data
+        res.status(200).json({
+            _id: user._id,
+            fullName: user.fullName,
+            username: user.username,
+            profilePic: user.profilePic
+        });
+
     } catch (error) {
         // Handle errors
         console.log("Error in login Controller: ", error);
@@ -72,13 +104,15 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-    try { 
+    try {
+        // Clear JWT cookie
+        res.cookie('jwt', '', { maxAge: 0});
 
+        // Respond with 200 status and success message
+        res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
         // Handle errors
         console.log("Error in logout Controller: ", error);
         res.status(500).json({ message: "Something went wrong " });
     }
 };
-
-
