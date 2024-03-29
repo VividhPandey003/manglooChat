@@ -1,24 +1,25 @@
 // Importing necessary modules and files
 import express from 'express';          // Importing Express
 import dotenv from 'dotenv';             // Importing dotenv for environment variables
+import cookieParser from 'cookie-parser'; // Importing cookie-parser
 import authRoutes from './routes/auth.routes.js';     // Importing authentication routes
+import messageRoutes from './routes/message.routes.js';  
 import connectToMongoDB from './db/connectToMongoDB.js'; // Importing function to connect to MongoDB
-
 // Setting up the port for the server
 const PORT = process.env.PORT || 5001;
 
 // Creating an instance of Express
 const app = express();
-
 // Configuring dotenv to load environment variables from .env file
 dotenv.config();
 
 // Adding middleware to parse JSON requests
 app.use(express.json());    // This will parse JSON requests from req.body
+app.use(cookieParser());    // This will parse cookies from the request
 
 // Adding authentication routes under the '/api/auth' path
 app.use('/api/auth', authRoutes);
-
+app.use('/api/messages', messageRoutes);
 // Starting the server and connecting to MongoDB
 app.listen(PORT, () => {
     connectToMongoDB();   // Calling function to connect to MongoDB
