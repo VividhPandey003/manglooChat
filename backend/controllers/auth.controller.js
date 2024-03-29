@@ -1,5 +1,6 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
+import generateTokenAndSetCookie from '../utils/generateToken.js';
 
 export const signup = async (req, res) => {
     try {
@@ -35,17 +36,22 @@ export const signup = async (req, res) => {
             profilePic
         });
 
-        // Save the new user to the database
-        await newUser.save();
+        if (newUser) {
+            // Save the new user to the database
+            generateTokenAndSetCookie(newUser._id, res);
+            await newUser.save();
 
-        // Respond with 201 status and user data
-        res.status(201).json({
-            _id: newUser._id,
-            fullName: newUser.fullName,
-            username: newUser.username,
-            profilePic: newUser.profilePic,
-            gender: newUser.gender
-        });
+            // Respond with 201 status and user data
+            res.status(201).json({
+                _id: newUser._id,
+                fullName: newUser.fullName,
+                username: newUser.username,
+                profilePic: newUser.profilePic,
+                gender: newUser.gender
+            });
+        } else {
+            res.status(400).json({ message: "Invalid user data" });
+        }
 
     } catch (error) {
         // Handle errors
@@ -54,12 +60,25 @@ export const signup = async (req, res) => {
     };
 };
 
-export const logout = async (req, res) => {
-    console.log('logout user');
-    res.send('logout user');
+export const login = async (req, res) => {
+    try{
+        const {username, password} = req.body;
+        
+    } catch (error) {
+        // Handle errors
+        console.log("Error in login Controller: ", error);
+        res.status(500).json({ message: "Something went wrong " });
+    }
 };
 
-export const login = async (req, res) => {
-    console.log('login user');
-    res.send('login user');
+export const logout = async (req, res) => {
+    try { 
+
+    } catch (error) {
+        // Handle errors
+        console.log("Error in logout Controller: ", error);
+        res.status(500).json({ message: "Something went wrong " });
+    }
 };
+
+
