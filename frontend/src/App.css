@@ -1,0 +1,16 @@
+/* Set the scrollbar width and color */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #485bb0; /* You can set any color for the scrollbar thumb */
+  border-radius: 4px; /* Roundness of the scrollbar thumb */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* You can set a different color when hovering over the scrollbar */
+}
