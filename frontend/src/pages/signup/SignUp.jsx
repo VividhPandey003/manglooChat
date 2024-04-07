@@ -12,6 +12,7 @@ const SignUp = () => {
         gender: ''
     });
 
+    // eslint-disable-next-line no-unused-vars
     const { loading, signup } = useSignup();
     const handleCheckboxChange = (gender) => {
         setInputs({ ...inputs, gender });

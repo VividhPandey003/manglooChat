@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef, no-unused-vars
 const daisyui = require("daisyui");
 
 // eslint-disable-next-line no-undef
