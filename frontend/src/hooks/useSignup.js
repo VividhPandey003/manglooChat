@@ -28,7 +28,7 @@ const useSignup = () => {
                 throw new Error(data.message);
             }
             console.log(data)
-            toast.success(data.message, { duration: 1500 });
+            toast.success("Login Successful! ", data.message, { duration: 1500 });
 
             localStorage.setItem('authState', JSON.stringify(data));
             setAuthUser(data);

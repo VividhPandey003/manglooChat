@@ -23,6 +23,7 @@ const Login = () => {
                         </label>
                         <input
                             type='password'
+                            autoComplete="on"
                             placeholder='Enter Password'
                             className='w-full input input-bordered h-10'
                         />
