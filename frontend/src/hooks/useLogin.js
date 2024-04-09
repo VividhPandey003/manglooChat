@@ -24,7 +24,7 @@ const useLogin = () => {
             }
             console.log(data)
             toast.success("Logged in Successfully!!", { duration: 1500 })
-            localStorage.setItem('authState', JSON.stringify(data));
+            localStorage.setItem('chat-user', JSON.stringify(data));
             setAuthUser(data);
 
         } catch (error) {
