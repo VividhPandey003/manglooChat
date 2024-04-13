@@ -19,7 +19,7 @@ const Login = () => {
             <div className='w-full p-6 rounded-lg shadow-md bg-secondary bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-40'>
                 <h1 className='text-3xl font-semibold text-center text-neutral'>
                     Login to
-                    <span className='text-primary'> Mangloo</span>
+                    <span className='text-primary'> ManglooChat😼</span>
                 </h1>
 
                 <form onSubmit={handleSubmit}>
