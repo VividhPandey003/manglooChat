@@ -1,47 +1,35 @@
-// Importing necessary modules and files
-import express from 'express';          // Importing Express
-import dotenv from 'dotenv';             // Importing dotenv for environment variables
-import cookieParser from 'cookie-parser'; // Importing cookie-parser
-import authRoutes from './routes/auth.routes.js';     // Importing authentication routes
-import messageRoutes from './routes/message.routes.js';  
-import userRoutes from './routes/user.routes.js';
-import connectToMongoDB from './db/connectToMongoDB.js'; // Importing function to connect to MongoDB
-// Setting up the port for the server
+import path from "path";
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+
+import authRoutes from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.routes.js";
+import userRoutes from "./routes/user.routes.js";
+
+import connectToMongoDB from "./db/connectToMongoDB.js";
+import { app, server } from "./socket/socket.js";
+
 const PORT = process.env.PORT || 5001;
 
-// Creating an instance of Express
-const app = express();
-// Configuring dotenv to load environment variables from .env file
+const __dirname = path.resolve();
+
 dotenv.config();
 
-// Adding middleware to parse JSON requests
-app.use(express.json());    // This will parse JSON requests from req.body
-app.use(cookieParser());    // This will parse cookies from the request
+app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
+app.use(cookieParser());
 
-// Adding authentication routes under the '/api/auth' path
-app.use('/api/auth', authRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/users', userRoutes);
-// Starting the server and connecting to MongoDB
-app.listen(PORT, () => {
-    connectToMongoDB();   // Calling function to connect to MongoDB
-    console.log(`Server running on port ${PORT}`)
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
-
-/*
-NOT USING THIS AS THIS WOULD CREATE SEVERAL ROUTES, INSTEAD WE WILL USE MIDDLEWARE - routes
-
-app.get('api/auth/signup' , (req, res) => {
-    console.log('signup route');
+server.listen(PORT, () => {
+	connectToMongoDB();
+	console.log(`Server Running on port ${PORT}`);
 });
-
-app.get('api/auth/signup' , (req, res) => {
-    console.log('login route');
-});
-
-app.get('api/auth/logout' , (req, res) => {
-    console.log('logout route');
-});
-*/
-
