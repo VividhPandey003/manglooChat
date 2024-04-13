@@ -14,14 +14,13 @@ export const useSocketContext = () => {
 
 
 export const SocketContextProvider = ({ children }) => {
-	console.log("helloworld")
 	const [socket, setSocket] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const { authUser } = useAuthContext();
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("http://127.0.0.1:5001", {
+			const socket = io("https://mangloochat.onrender.com/", {
 				query: {
 					userId: authUser._id,
 				},

@@ -16,7 +16,6 @@ const Messages = () => {
     }, 10);
   }, [messages]);
 
-  console.log("bada bhai message", messages);//debug
   return (
     <div className="px-4 flex-1 overflow-auto">
       {!loading &&
