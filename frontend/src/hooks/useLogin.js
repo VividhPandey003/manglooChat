@@ -20,6 +20,7 @@ const useLogin = () => {
             })
             const data = await res.json()
             if (data.error) {
+                toast.error(data.error)
                 throw new Error(data.error)
             }
             toast.success("Logged in Successfully!!", { duration: 1500 })
